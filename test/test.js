@@ -19,12 +19,16 @@ function wrapLocate(callback){
 	};
 }
 
+function getQuery(address){
+	return address.substr(address.indexOf("?")+1)
+}
+
 QUnit.module("cache-bust", {
 	setup: function(){
 		stop();
 
-		loader["delete"]("cache-bust");
-		loader["delete"]("test/tests/foo");
+		loader = loader.clone();
+		loader.set("@loader", loader.newModule({ default: loader, __useDefault: true }));
 		loader.env = "production";
 
 		delete loader.cacheKey;
@@ -40,7 +44,7 @@ test("basics works", function(){
 	expect(1);
 
 	wrapLocate(function(address){
-		var query = address.substr(address.indexOf("?")+1);
+		var query = getQuery(address);
 		var version = query.split("=")[1];
 
 		equal(version, "14", "Correct version number");
@@ -57,7 +61,7 @@ test("Overriding the cacheKey works", function(){
 	expect(1);
 
 	wrapLocate(function(address){
-		var query = address.substr(address.indexOf("?")+1);
+		var query = getQuery(address);
 		var key = query.split("=")[0];
 
 		equal(key, "someKey", "Correctly changed the cacheKey");
@@ -65,6 +69,25 @@ test("Overriding the cacheKey works", function(){
 
 	loader.cacheKey = "someKey";
 	loader.import("test/tests/foo")
+		.then(loader.unwrap).then(start);
+
+	stop();
+});
+
+test("works with plugins too", function(){
+	expect(2);
+
+	wrapLocate(function(address){
+		if(address.indexOf("?") > 0) {
+			var query = getQuery(address);
+			var parts = query.split("=");
+
+			equal(parts.length, 2, "there should only be one version param and one value");
+		}
+	});
+
+	loader.cacheVersion = 1;
+	loader.import("test/tests/some.txt!test/tests/plugin")
 		.then(loader.unwrap).then(start);
 
 	stop();

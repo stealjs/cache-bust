@@ -11,11 +11,16 @@ function cacheBust(){
 		var loader = this;
 
 		return Promise.resolve(locatePromise).then(function (proposedAddress) {
-			var cacheVersion = loader.cacheVersion || Math.random();
-			var cacheKey = loader.cacheKey || "version";
-			var newAddress = proposedAddress + "?" + cacheKey + "=" + cacheVersion;
+			if(!load.metadata.plugin || load.metadata.cacheInitial) {
+				var cacheVersion = loader.cacheVersion || Math.random();
+				var cacheKey = loader.cacheKey || "version";
+				var newAddress = proposedAddress + "?" + cacheKey + "=" + cacheVersion;
+				return newAddress;
+			} else if(load.metadata.plugin) {
+				load.metadata.cacheInitial = true;
+			}
 
-			return newAddress;
+			return proposedAddress;
 		});
 	};
 }

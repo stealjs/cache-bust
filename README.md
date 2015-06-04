@@ -13,7 +13,7 @@ You can install through NPM:
 npm install steal-cache-bust --save
 ```
 
-You'll then want to copy `node_modules/steal-cache-bust/cache-bust.js` to a location within your project folder.
+You'll then want to copy `node_modules/steal-cache-bust/cache-bust.js` to a location within your project folder.  In the future this extension will be included in Steal by default.
 
 # Usage
 
