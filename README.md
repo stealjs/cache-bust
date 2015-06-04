@@ -30,6 +30,28 @@ With StealJS simply include cache-bust as a configDependency.  Assuming you plac
 
 ```
 
+# Configuration
+
+You can configure cache busting by setting properties on the script tag. You'll probably at least want to set `cacheVersion`.
+
+## cacheVersion
+
+This is the version string that will be appending as a query parameter.  For example if you do:
+
+```html
+<script src="node_modules/steal/steal.js" cache-version="14"></script>
+```
+
+Then requests will be for:
+
+```
+http://example.com/foo/bar.js?version=14
+```
+
+## cacheKey
+
+By default **"version"** is used as the query param for busting caches but you can use a different string by setting `cacheKey`.
+
 ## License
 
 MIT
