@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/stealjs/cache-bust",
   "devDependencies": {
-    "steal": "^0.10.5",
-    "steal-qunit": "0.0.4",
+    "steal": "^0.13.0-pre.0",
+    "steal-qunit": "^0.1.0",
     "testee": "^0.2.0"
   }
 }

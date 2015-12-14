@@ -1,6 +1,6 @@
 var loader = require("@loader");
 
-if(loader.env === "production") {
+if(isProduction()) {
 	cacheBust();
 }
 
@@ -23,4 +23,9 @@ function cacheBust(){
 			return proposedAddress;
 		});
 	};
+}
+
+function isProduction(){
+	return (loader.isEnv && loader.isEnv("production")) ||
+		loader.env === "production";
 }

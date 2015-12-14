@@ -29,7 +29,7 @@ QUnit.module("cache-bust", {
 
 		loader = loader.clone();
 		loader.set("@loader", loader.newModule({ default: loader, __useDefault: true }));
-		loader.env = "production";
+		loader.env = "window-production";
 
 		delete loader.cacheKey;
 		delete loader.cacheVersion;
