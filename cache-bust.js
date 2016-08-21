@@ -1,30 +1,18 @@
 var loader = require("@loader");
+var fetch = loader.fetch;
+var timestamp = new Date().getTime();
 
-if(isProduction()) {
-	cacheBust();
-}
+loader.fetch = function(load) {
+	var loader = this;
+	var cacheVersion = isProduction() ? loader.cacheVersion || timestamp : timestamp;
+	var cacheKey = loader.cacheKey || "version";
+	var cacheKeyVersion = cacheKey + "=" + cacheVersion;
 
-function cacheBust(){
-	var locate = loader.locate;
-	loader.locate = function (load) {
-		var locatePromise = locate.call(this, load);
-		var loader = this;
+	load.address = load.address + (load.address.indexOf('?') === -1 ? '?' : '&') + cacheKeyVersion;
 
-		return Promise.resolve(locatePromise).then(function (proposedAddress) {
-			if(!load.metadata.plugin || load.metadata.cacheInitial) {
-				var cacheVersion = loader.cacheVersion || Math.random();
-				var cacheKey = loader.cacheKey || "version";
-				var newAddress = proposedAddress + "?" + cacheKey + "=" + cacheVersion;
-				return newAddress;
-			} else if(load.metadata.plugin) {
-				load.metadata.cacheInitial = true;
-			}
-
-			return proposedAddress;
-		});
-	};
-}
-
+	return fetch.call(this, load);
+};
+	
 function isProduction(){
 	return (loader.isEnv && loader.isEnv("production")) ||
 		loader.env === "production";
