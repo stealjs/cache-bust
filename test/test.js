@@ -6,16 +6,16 @@ var stop = QUnit.stop;
 var start = QUnit.start;
 var equal = QUnit.equal;
 
-function wrapLocate(callback){
-	var locate = loader.locate;
-	loader.locate = function(){
-		return locate.apply(this, arguments).then(function(address){
-			callback(address);
-			return address;
+function wrapFetch(callback){
+	var fetch = loader.fetch;
+	loader.fetch = function(load){
+		return fetch.apply(this, arguments).then(function(source){
+			callback(load.address);
+			return source;
 		});
 	};
 	loader.unwrap = function(){
-		loader.locate = locate;
+		loader.fetch = fetch;
 	};
 }
 
@@ -43,7 +43,7 @@ QUnit.module("cache-bust", {
 test("basics works", function(){
 	expect(1);
 
-	wrapLocate(function(address){
+	wrapFetch(function(address){
 		var query = getQuery(address);
 		var version = query.split("=")[1];
 
@@ -60,7 +60,7 @@ test("basics works", function(){
 test("Overriding the cacheKey works", function(){
 	expect(1);
 
-	wrapLocate(function(address){
+	wrapFetch(function(address){
 		var query = getQuery(address);
 		var key = query.split("=")[0];
 
@@ -77,7 +77,7 @@ test("Overriding the cacheKey works", function(){
 test("works with plugins too", function(){
 	expect(2);
 
-	wrapLocate(function(address){
+	wrapFetch(function(address){
 		if(address.indexOf("?") > 0) {
 			var query = getQuery(address);
 			var parts = query.split("=");
