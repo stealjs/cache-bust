@@ -43,7 +43,7 @@ If you prefer leaving cache-bust in your `node_modules` folder you should use th
 
 # Configuration
 
-When not running in production the `cacheVersion` is ignored and a timestamp is added instead.  Some files do not pass through steal so no cache busting can be applied.  When developing using Chrome as your browser you may want to tick the 'Disable cache (while DevTools is open)' checkbox under *Settings | Preferences | Network* to prevent caching altogether.
+When not running in production the `cacheVersion` is ignored and a timestamp is added instead.  As some files do not pass through steal so no cache busting can be applied to those.  When developing using Chrome as your browser you may want to tick the 'Disable cache (while DevTools is open)' checkbox under *Settings | Preferences | Network* to prevent caching altogether.
 
 You can configure cache busting by setting properties on the script tag. You'll probably at least want to set `cacheVersion`.
 
