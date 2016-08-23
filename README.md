@@ -43,7 +43,7 @@ If you prefer leaving cache-bust in your `node_modules` folder you should use th
 
 # Configuration
 
-When not running in production the `cacheVersion` is ignored and a timestamp is added instead.  As some files do not pass through steal so no cache busting can be applied to those.  When developing using Chrome as your browser you may want to tick the 'Disable cache (while DevTools is open)' checkbox under *Settings | Preferences | Network* to prevent caching altogether.
+When not running in production the `cacheVersion` is ignored and a timestamp is added instead.  As some files do not pass through steal no cache busting can be applied to those.  When developing using Chrome as your browser you may want to tick the 'Disable cache (while DevTools is open)' checkbox under *Settings | Preferences | Network* to prevent caching altogether while you are developing.
 
 You can configure cache busting by setting properties on the script tag. You'll probably at least want to set `cacheVersion`.
 
@@ -60,6 +60,8 @@ Then requests will be for:
 ```
 http://example.com/foo/bar.js?version=14
 ```
+
+This version should be changed for each production release to ensure that the latest code is retrieved from the server.
 
 If you do not specify a `cacheVersion` value a timestamp will be added as the cache busting parameter.  This is not ideal for a production environment as you will lose all the benefits of browser caching.
 
