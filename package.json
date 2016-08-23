@@ -1,6 +1,6 @@
 {
   "name": "steal-cache-bust",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A cache busting extension for StealJS",
   "main": "cache-bust.js",
   "directories": {
