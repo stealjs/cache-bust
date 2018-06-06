@@ -26,6 +26,6 @@
   "devDependencies": {
     "steal": "^1.0.0",
     "steal-qunit": "^0.1.0",
-    "testee": "^0.3.0"
+    "testee": "^0.8.0"
   }
 }
